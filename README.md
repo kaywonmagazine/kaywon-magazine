@@ -1,25 +1,46 @@
-# EX MAGAZINE — GitHub Pages용 HTML
+# EX MAGAZINE
 
-현재 공개 사이트의 디자인과 공개 기사 81개를 포함한 정적 사본입니다. FEATURED 제목 크기 변경까지 반영했습니다.
+기존 EXD MAGAZINE 백엔드의 공개 콘텐츠 API를 사용하는 웹 프런트엔드입니다. CSS와 JavaScript는 별도 파일로 유지합니다.
 
-## 파일
-- index.html: CSS, JavaScript, 공개 기사, 사진, 폰트를 모두 포함한 단일 HTML. 더블클릭으로 열거나 웹 서버에 올릴 수 있습니다.
-- .nojekyll: GitHub Pages 정적 게시 설정.
-- licenses/: 원본 이미지 출처 및 폰트 라이선스. 이 폴더도 함께 보관하세요.
+## 페이지 구성
 
-## GitHub에 올리기
-1. ZIP을 압축 해제합니다.
-2. 저장소 최상위에 index.html, .nojekyll, licenses 폴더를 올리고 커밋합니다. index.html이 중첩 폴더 안에 들어가지 않게 하세요.
-3. 저장소 Settings → Pages → Build and deployment에서 Deploy from a branch를 선택합니다.
-4. main 브랜치와 /(root)를 선택하고 Save를 누릅니다.
-5. 게시된 Pages 주소를 엽니다. 저장소 이름이 붙은 하위 경로에서도 동작하도록 상대 경로를 사용합니다.
+- `index.html`: 메인
+- `work.html`, `people.html`, `life.html`, `view.html`: 카테고리
+- `article.html?id=기사ID`: 공통 기사 상세
+- `work.html?subcategory=졸업전시`: 세부 분류 예시
+- `work.html?view=articles`: 소개 영역 없는 전체 기사 목록 예시
+- `404.html`: 이전 개별 HTML 주소를 새 공통 주소로 안내하는 GitHub Pages 호환 페이지
 
-## 포함 기능
-메인, WORK·PEOPLE·LIFE·VIEW, 세부 분류, 목록/그리드, 기사 상세, 검색, 연도별 아카이브, 기존 스크롤 인터랙션과 폰트. 별도 CDN이나 기존 공개 API 없이 실행됩니다. 기사 상세는 index.html?article=기사ID 주소를 사용합니다.
+112개 화면별 HTML을 6개 공통 페이지와 이전 주소 안내 페이지 1개로 통합했습니다. 세부 분류·목록·기사마다 HTML을 추가할 필요가 없습니다.
 
-## 관리자와 콘텐츠 변경
-GitHub Pages는 정적 파일 호스팅이므로 자체 로그인, 관리자 계정 발급, 사진 업로드, 기사 작성·승인은 실행하지 않습니다. 푸터 관리자 링크는 기존 운영 사이트 https://exd-magazine-archive.rhddyd0831.chatgpt.site/admin 으로 연결됩니다. 계정·비밀번호·세션·비공개 원고는 포함하지 않았습니다.
+## 저장과 공개
 
-이 파일은 내보낸 시점의 공개 콘텐츠 사본이며, 운영 관리자에서 수정해도 자동 반영되지 않습니다. 변경 후에는 새 HTML을 다시 내보내 올리거나 별도 서버·데이터베이스를 연결해야 합니다. GitHub 저장소에 올리는 것만으로 관리자 기능이 이전되지는 않습니다.
+관리자: https://exd-magazine-archive.rhddyd0831.chatgpt.site/admin
 
-공개 데이터 기준: 2026-10-25T19:04:28.216Z
+공개 API: https://exd-magazine-archive.rhddyd0831.chatgpt.site/api/public
+
+기존 운영 서버는 Cloudflare Workers, D1 데이터베이스(`DB`), R2 이미지 저장소(`BUCKET`)를 사용합니다. 관리자에서 수정한 원고는 서버에 저장됩니다. 기사는 **저장 → 승인 요청 → 메인 관리자 승인·게시** 이후 공개 API와 이 사이트에 표시됩니다. 이미 공개된 기사를 수정해도 승인 전에는 종전 공개본이 유지됩니다. 메인과 카테고리 소개 설정은 관리자 저장 후 공개 데이터에 반영됩니다.
+
+이 프런트엔드는 접속 시 공개 API를 읽으며, 페이지가 열린 동안 15초마다 변경을 확인합니다. 창으로 돌아왔을 때도 다시 확인합니다. 관리자 로그인·쓰기·승인·업로드는 기존 관리자 사이트에서 수행합니다. 공개 API의 GET에만 CORS를 허용했으며 관리자 API의 인증과 같은 출처 쓰기 검사는 유지합니다.
+
+## 미리보기와 게시
+
+웹 서버나 GitHub Pages에서 열면 실제 데이터베이스의 공개 데이터를 사용합니다. 운영 API 연결 실패 시 오래된 사본을 현재 데이터처럼 표시하지 않고 오류를 표시하며, 주기적 갱신으로 재시도합니다.
+
+파일을 더블클릭한 `file://` 미리보기에서는 네트워크 없이 `js/content.js`의 내보내기 당시 사본을 사용합니다. 실제 저장·승인 반영 확인은 HTTP/HTTPS 주소에서 하세요.
+
+GitHub Pages에는 이 폴더의 HTML과 `css`, `js`, `assets`, `media`, `licenses` 폴더를 함께 올리세요. 백엔드 소스와 배포 산출물인 `.source-inspection`, `.artifacts`는 게시 대상이 아니며 `.gitignore`로 제외했습니다. GitHub Pages 자체에서 서버를 실행하지 않고 기존 운영 API에 연결합니다.
+
+## 파일 관리
+
+- `css/styles.css`: 공통 스타일
+- `js/app.js`: 공통 화면, 라우팅, 공개 API 연결, 검색, 자동 갱신
+- `js/content.js`: 파일 미리보기용 데이터 사본
+- `js/legacy-route.js`: 이전 HTML 주소 변환
+- `assets/`, `media/`: 정적 이미지와 폰트
+- `licenses/`: 이미지 출처 및 폰트 라이선스
+
+백엔드 프로젝트: `appgprj_6aac132b3eb08191b795b3fda8696493`
+공개 API CORS 배포: 버전 28, 소스 `7d798e4197f15948fb888a11f79001bbbe80477c`
+
+기존 `index.html?category=WORK`와 `index.html?article=기사ID` 주소도 지원합니다. 관리자 계정·비밀번호·세션·비공개 원고는 프런트엔드 파일에 포함하지 않습니다.
