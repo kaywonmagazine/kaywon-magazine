@@ -224,3 +224,6 @@ body{margin:auto;min-height:100vh}.page-sections{display:grid;grid-template-colu
 @media(max-width:700px){.home-edition-heading{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px;padding:20px 0}.home-edition-heading .featured-label{grid-column:1/-1;grid-row:1;font-size:50px}.home-edition-heading>span:first-child{grid-column:1;grid-row:2}.home-edition-heading>span:last-child{grid-column:2;grid-row:2}}
 
 #archive-backup-notice{margin:12px auto;padding:10px 16px;max-width:90%;border:1px solid #bbb;font-size:.875rem;line-height:1.5}
+
+/* Keep the hover content in reading order when the card needs to scroll. */
+.card-details > * { flex-shrink: 0; }
