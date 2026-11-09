@@ -15,7 +15,7 @@
 
 ## 저장과 공개
 
-편집실: https://ex-magazine-editorial-recovery.rhddyd0831.chatgpt.site/admin
+편집실: https://ex-magazine.exd-magazine.workers.dev/admin
 
 GitHub Pages는 js/content.js의 공개 기사 복구본을 표시합니다. 편집실에서 업로드한 기사는 현재 GitHub Pages에 자동 반영되지 않습니다. 공개 읽기 API를 별도로 연결하는 경우 각 페이지의 body에 data-public-api를 설정할 수 있습니다.
 
