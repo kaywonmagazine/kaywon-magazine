@@ -227,3 +227,10 @@ body{margin:auto;min-height:100vh}.page-sections{display:grid;grid-template-colu
 
 /* Keep the hover content in reading order when the card needs to scroll. */
 .card-details > * { flex-shrink: 0; }
+
+.card-details { overflow: hidden; }
+.card-details .description-preview { position: relative; flex: 1 1 0; min-height: 0; margin-bottom: 10px; }
+.card-details .description { height: 100%; margin: 0; overflow-y: auto; overscroll-behavior-y: contain; overflow-wrap: anywhere; scrollbar-width: thin; }
+.description-preview.has-more::after { content: ""; position: absolute; inset: auto 0 0; height: min(28px, 35%); background: linear-gradient(transparent, var(--cover-color)); backdrop-filter: blur(2px); mask-image: linear-gradient(transparent, black); pointer-events: none; }
+.card-details h3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.work-result-list.is-list-view .card-details h3 { -webkit-line-clamp: 2; }
