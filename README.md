@@ -15,21 +15,13 @@
 
 ## 저장과 공개
 
-관리자: https://ex-magazine-editorial-recovery.rhddyd0831.chatgpt.site/admin
+편집실: https://ex-magazine-editorial-recovery.rhddyd0831.chatgpt.site/admin
 
-공개 API: https://exd-magazine-archive.rhddyd0831.chatgpt.site/api/public
-
-기존 운영 서버는 Cloudflare Workers, D1 데이터베이스(`DB`), R2 이미지 저장소(`BUCKET`)를 사용합니다. 관리자에서 수정한 원고는 서버에 저장됩니다. 기사는 **업로드** 버튼을 누르면 최신 원고가 공개 API와 이 사이트에 표시되고 상태가 **게시됨**으로 변경됩니다. 저장 확인만 누르면 원고만 저장되며 종전 공개본이 유지됩니다. 승인 요청·검토 기능도 별도로 사용할 수 있습니다. 메인과 카테고리 소개 설정은 관리자 저장 후 공개 데이터에 반영됩니다.
-
-이 프런트엔드는 접속 시 공개 API를 읽으며, 페이지가 열린 동안 15초마다 변경을 확인합니다. 창으로 돌아왔을 때도 다시 확인합니다. 관리자 로그인·쓰기·승인·업로드는 기존 관리자 사이트에서 수행합니다. 공개 API의 GET에만 CORS를 허용했으며 관리자 API의 인증과 같은 출처 쓰기 검사는 유지합니다.
+GitHub Pages는 js/content.js의 공개 기사 복구본을 표시합니다. 편집실에서 업로드한 기사는 현재 GitHub Pages에 자동 반영되지 않습니다. 공개 읽기 API를 별도로 연결하는 경우 각 페이지의 body에 data-public-api를 설정할 수 있습니다.
 
 ## 미리보기와 게시
 
-웹 서버나 GitHub Pages에서 열면 실제 데이터베이스의 공개 데이터를 사용합니다. 운영 API 연결 실패 시 오래된 사본을 현재 데이터처럼 표시하지 않고 오류를 표시하며, 주기적 갱신으로 재시도합니다.
-
-파일을 더블클릭한 `file://` 미리보기에서는 네트워크 없이 `js/content.js`의 내보내기 당시 사본을 사용합니다. 실제 저장·승인 반영 확인은 HTTP/HTTPS 주소에서 하세요.
-
-GitHub Pages에는 이 폴더의 HTML과 `css`, `js`, `assets`, `media`, `licenses` 폴더를 함께 올리세요. 백엔드 소스와 배포 산출물인 `.source-inspection`, `.artifacts`는 게시 대상이 아니며 `.gitignore`로 제외했습니다. GitHub Pages 자체에서 서버를 실행하지 않고 기존 운영 API에 연결합니다.
+공개 사이트에 HTML과 css, js, assets, media, licenses 폴더를 함께 게시합니다. 편집실 소스와 복구 산출물은 .artifacts에 별도로 보관합니다.
 
 ## 파일 관리
 
